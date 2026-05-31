@@ -146,4 +146,18 @@ const {
 	main {
 		display: block;
 	}
+
+	/* On small screens the decorative edge-marks wrap and collide with the
+	   header; hide them and tighten the top spacing. */
+	@media (max-width: 680px) {
+		.sheet {
+			margin: 10px auto;
+		}
+		.edgemark {
+			display: none;
+		}
+		.inner {
+			padding-top: 18px;
+		}
+	}
 </style>
