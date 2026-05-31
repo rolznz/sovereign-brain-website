@@ -4,13 +4,12 @@ import { SITE_TITLE, TEMPLATE_USE_URL } from '../../consts';
 import { comparisons } from '../../data/comparisons';
 
 export function getStaticPaths() {
-	return comparisons.map((c) => ({ params: { slug: c.slug }, props: c }));
+	return comparisons.map((c, i) => ({ params: { slug: c.slug }, props: { ...c, index: i } }));
 }
 
 const c = Astro.props;
+const sheetNo = String(20 + (c.index ?? 0)).padStart(2, '0');
 
-// FAQPage-friendly structured data isn't a fit here; use a simple structured
-// comparison via Article schema.
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'Article',
@@ -21,7 +20,11 @@ const jsonLd = {
 };
 ---
 
-<Page title={c.title} description={c.description}>
+<Page
+	title={c.title}
+	description={c.description}
+	sheetLabel={`SOVEREIGN BRAIN · COMPARE · SHEET A-${sheetNo}`}
+>
 	<script
 		slot="head"
 		type="application/ld+json"
@@ -30,54 +33,79 @@ const jsonLd = {
 	/>
 
 	<article class="doc">
+		<div class="cut"><span class="tag"><b>A·{sheetNo}</b> · COMPARISON</span></div>
 		<h1>{c.heading}</h1>
-		<p class="lead">{c.intro}</p>
+		<p class="lead muted">{c.intro}</p>
 
-		<h2>Feature comparison</h2>
-		<div class="table-wrap">
-			<table>
-				<thead>
-					<tr>
-						<th>Feature</th>
-						<th>Sovereign Brain</th>
-						<th>{c.name}</th>
-					</tr>
-				</thead>
-				<tbody>
-					{
-						c.rows.map((row) => (
-							<tr>
-								<th scope="row">{row.feature}</th>
-								<td>{row.sovereign}</td>
-								<td>{row.competitor}</td>
-							</tr>
-						))
-					}
-				</tbody>
-			</table>
+		<div class="cut"><span class="tag"><b>·</b> FEATURE COMPARISON</span></div>
+		<div class="panel">
+			<div class="ttl"><span>SOVEREIGN BRAIN vs {c.name.toUpperCase()}</span><span>OPEN vs CLOSED</span></div>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Feature</th>
+							<th>Sovereign Brain</th>
+							<th>{c.name}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{
+							c.rows.map((row) => (
+								<tr>
+									<th scope="row">{row.feature}</th>
+									<td class="ours">{row.sovereign}</td>
+									<td>{row.competitor}</td>
+								</tr>
+							))
+						}
+					</tbody>
+				</table>
+			</div>
 		</div>
 
-		<h2>Where {c.name} wins</h2>
-		<p>{c.competitorWins}</p>
+		<div class="cut"><span class="tag"><b>·</b> WHERE {c.name.toUpperCase()} WINS</span></div>
+		<div class="sec-head"><h2>Where {c.name} wins</h2></div>
+		<p class="body">{c.competitorWins}</p>
 
-		<h2>The verdict</h2>
-		<p>{c.verdict}</p>
+		<div class="cut"><span class="tag"><b>·</b> THE VERDICT</span></div>
+		<div class="sec-head"><h2>The verdict</h2></div>
+		<p class="body">{c.verdict}</p>
 
-		<p class="cta">
-			<a class="btn" href={TEMPLATE_USE_URL}>Get the free template</a>
-		</p>
+		<div class="cta-row">
+			<a class="btn primary" href={TEMPLATE_USE_URL}>Get the free template <span class="arr">→</span></a>
+		</div>
 	</article>
 </Page>
 
 <style>
 	.doc {
 		max-width: 760px;
+		margin: 0 auto;
 	}
 	.lead {
-		font-size: 1.15rem;
+		margin-top: 14px;
 	}
-	.doc h2 {
-		margin-top: 2.5rem;
+	.body {
+		font-size: 18px;
+		line-height: 1.7;
+		max-width: 64ch;
+	}
+	.panel {
+		border: 1.5px solid var(--ink);
+		background: var(--panel);
+		margin-top: 4px;
+	}
+	.panel .ttl {
+		font-family: var(--mono);
+		font-size: 11px;
+		letter-spacing: 1.5px;
+		color: var(--ink-soft);
+		padding: 11px 18px;
+		border-bottom: 1px dashed var(--line);
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
 	}
 	.table-wrap {
 		overflow-x: auto;
@@ -85,39 +113,36 @@ const jsonLd = {
 	table {
 		border-collapse: collapse;
 		width: 100%;
-		font-size: 0.95rem;
+		font-size: 15px;
 	}
 	th,
 	td {
 		text-align: left;
-		padding: 0.7rem 0.8rem;
-		border-bottom: 1px solid rgb(var(--gray-light));
+		padding: 12px 16px;
+		border-bottom: 1px dashed var(--line-soft);
 		vertical-align: top;
 	}
 	thead th {
-		border-bottom: 2px solid rgb(var(--gray));
+		font-family: var(--mono);
+		font-size: 11px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		color: var(--ink-soft);
+		border-bottom: 1px solid var(--line);
 	}
 	tbody th {
-		font-weight: 700;
+		font-family: var(--mono);
+		font-size: 12px;
+		font-weight: 400;
+		color: var(--accent);
+		letter-spacing: 0.5px;
+		white-space: nowrap;
 	}
-	td:nth-child(2) {
-		color: var(--accent-dark);
+	tbody tr:last-child th,
+	tbody tr:last-child td {
+		border-bottom: 0;
+	}
+	td.ours {
 		font-weight: 600;
-	}
-	.cta {
-		margin-top: 2.5rem;
-	}
-	.btn {
-		display: inline-block;
-		background: var(--accent);
-		color: #fff;
-		padding: 0.7rem 1.3rem;
-		border-radius: 8px;
-		font-weight: 700;
-		text-decoration: none;
-	}
-	.btn:hover {
-		background: var(--accent-dark);
-		color: #fff;
 	}
 </style>

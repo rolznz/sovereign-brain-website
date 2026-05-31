@@ -1,6 +1,8 @@
 ---
-// Generic marketing/content page layout: <head> SEO + header + footer + slot.
-// Use `<... slot="head">` from a page to inject extra structured data.
+// Marketing/content page layout: the architect's drawing-sheet frame wrapping
+// header + page content + footer. Use `<... slot="head">` to inject extra
+// structured data into <head>.
+import type { ImageMetadata } from 'astro';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -8,22 +10,140 @@ import Header from '../components/Header.astro';
 interface Props {
 	title: string;
 	description: string;
+	/** Top-edge sheet annotation, e.g. "SOVEREIGN BRAIN · HOMEPAGE · SHEET A-01". */
+	sheetLabel?: string;
+	/** Forwarded to BaseHead — set on articles to emit BlogPosting + article OG. */
+	image?: ImageMetadata;
+	pubDate?: Date;
+	updatedDate?: Date;
 }
 
-const { title, description } = Astro.props;
+const {
+	title,
+	description,
+	sheetLabel = 'SOVEREIGN BRAIN · SHEET A-01',
+	image,
+	pubDate,
+	updatedDate,
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead
+			title={title}
+			description={description}
+			image={image}
+			pubDate={pubDate}
+			updatedDate={updatedDate}
+		/>
 		<slot name="head" />
 	</head>
 	<body>
-		<Header />
-		<main>
-			<slot />
-		</main>
-		<Footer />
+		<div class="sheet">
+			<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+			<span class="edgemark top">{sheetLabel}</span>
+			<span class="edgemark left">SCALE 1:1 · REV — WIP</span>
+
+			<div class="inner">
+				<Header />
+				<main>
+					<slot />
+				</main>
+				<Footer />
+			</div>
+		</div>
 	</body>
 </html>
+
+<style>
+	.sheet {
+		position: relative;
+		max-width: 1120px;
+		margin: 26px auto;
+		background: var(--paper);
+		border: 1.5px solid var(--ink);
+		padding: 0 clamp(20px, 5vw, 64px);
+	}
+	.sheet::before {
+		content: '';
+		position: absolute;
+		inset: 8px;
+		border: 1px solid var(--line);
+		pointer-events: none;
+	}
+	.crop {
+		position: absolute;
+		width: 13px;
+		height: 13px;
+		pointer-events: none;
+	}
+	.crop::before,
+	.crop::after {
+		content: '';
+		position: absolute;
+		background: var(--ink);
+	}
+	.crop::before {
+		width: 13px;
+		height: 1.5px;
+	}
+	.crop::after {
+		width: 1.5px;
+		height: 13px;
+	}
+	.crop.tl {
+		top: -1px;
+		left: -1px;
+	}
+	.crop.tr {
+		top: -1px;
+		right: -1px;
+	}
+	.crop.tr::after {
+		right: 0;
+	}
+	.crop.bl {
+		bottom: -1px;
+		left: -1px;
+	}
+	.crop.bl::before {
+		bottom: 0;
+	}
+	.crop.br {
+		bottom: -1px;
+		right: -1px;
+	}
+	.crop.br::before {
+		bottom: 0;
+	}
+	.crop.br::after {
+		right: 0;
+	}
+	.edgemark {
+		position: absolute;
+		font-family: var(--mono);
+		font-size: 9px;
+		letter-spacing: 1px;
+		color: var(--ink-soft);
+	}
+	.edgemark.top {
+		top: 14px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.edgemark.left {
+		left: 14px;
+		top: 50%;
+		transform: translateY(-50%) rotate(-90deg);
+		transform-origin: left;
+	}
+	.inner {
+		position: relative;
+		padding: 30px 0 0;
+	}
+	main {
+		display: block;
+	}
+</style>

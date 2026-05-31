@@ -12,19 +12,24 @@ const description =
 	'Guides and notes on building a local, private AI second brain: local LLMs, agents, and plain-Markdown knowledge systems you fully own.';
 ---
 
-<Page title={title} description={description}>
-	<h1>Blog</h1>
-	<p class="lead">Building a local, private AI second brain — setup guides, ideas, and lessons learned.</p>
+<Page title={title} description={description} sheetLabel="SOVEREIGN BRAIN · BLOG · SHEET A-07">
+	<div class="pagehead">
+		<span class="eyebrow">A·07 · Writing</span>
+		<h1>Blog</h1>
+		<p class="lead muted">Building a local, private AI second brain — setup guides, ideas, and lessons learned.</p>
+	</div>
 
 	<ul class="posts">
 		{
 			posts.map((post) => (
 				<li>
-					<a class="post-title" href={`/blog/${post.id}/`}>{post.data.title}</a>
-					<p class="date">
+					<span class="date mono">
 						<FormattedDate date={post.data.pubDate} />
-					</p>
-					{post.data.description && <p class="desc">{post.data.description}</p>}
+					</span>
+					<div class="meta">
+						<a class="post-title" href={`/blog/${post.id}/`}>{post.data.title}</a>
+						{post.data.description && <p class="desc muted">{post.data.description}</p>}
+					</div>
 				</li>
 			))
 		}
@@ -32,35 +37,62 @@ const description =
 </Page>
 
 <style>
+	.pagehead {
+		padding: 30px 0 6px;
+	}
+	.pagehead .eyebrow {
+		display: block;
+		margin-bottom: 10px;
+	}
 	.lead {
-		font-size: 1.15rem;
-		color: rgb(var(--gray-dark));
+		margin-top: 14px;
 	}
 	.posts {
 		list-style: none;
 		padding: 0;
-		margin-top: 2rem;
+		margin-top: 30px;
 	}
 	.posts li {
-		padding-bottom: 1.5rem;
-		margin-bottom: 1.5rem;
-		border-bottom: 1px solid rgb(var(--gray-light));
+		display: flex;
+		gap: 22px;
+		padding: 24px 0;
+		border-top: 1px solid var(--line);
+	}
+	.posts li:last-child {
+		border-bottom: 1px solid var(--line);
+	}
+	.date {
+		font-size: 11px;
+		letter-spacing: 1px;
+		color: var(--ink-soft);
+		white-space: nowrap;
+		padding-top: 8px;
+		flex: 0 0 auto;
+		width: 7.5em;
 	}
 	.post-title {
-		font-size: 1.5rem;
-		font-weight: 700;
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 26px;
 		line-height: 1.2;
+		color: var(--ink);
 		text-decoration: none;
 	}
 	.post-title:hover {
-		text-decoration: underline;
-	}
-	.date {
-		margin: 0.3rem 0 0;
-		color: rgb(var(--gray));
-		font-size: 0.9rem;
+		color: var(--accent);
 	}
 	.desc {
 		margin: 0.5rem 0 0;
+		font-size: 16px;
+		line-height: 1.55;
+	}
+	@media (max-width: 560px) {
+		.posts li {
+			flex-direction: column;
+			gap: 6px;
+		}
+		.date {
+			padding-top: 0;
+		}
 	}
 </style>

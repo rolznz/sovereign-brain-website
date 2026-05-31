@@ -1,279 +1,489 @@
 ---
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
-import FormattedDate from '../components/FormattedDate.astro';
 import Page from '../layouts/Page.astro';
 import heroImage from '../assets/local-ai-second-brain-laptop.jpg';
 import { TEMPLATE_USE_URL, TEMPLATE_ZIP_URL } from '../consts';
 
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 3);
+const latest = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+)[0];
+
+const blogDate = latest
+	? new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' })
+			.format(latest.data.pubDate)
+			.toUpperCase()
+	: '';
+const blogYear = latest ? latest.data.pubDate.getFullYear() : '';
 
 const title = 'Local AI Second Brain — Private, Offline & Yours | Sovereign Brain';
 const description =
 	'Sovereign Brain is a free, local AI second brain that runs entirely on your own machine. Private, offline, no cloud, no subscription. Download the open-source template.';
 ---
 
-<Page title={title} description={description}>
+<Page title={title} description={description} sheetLabel="SOVEREIGN BRAIN · HOMEPAGE · SHEET A-01">
+	<!-- HERO -->
 	<section class="hero">
-		<p class="eyebrow">Local · Private · Open source</p>
-		<h1>A local AI second brain that runs on your machine.</h1>
+		<span class="eyebrow">Local · Private · Open Source</span>
+		<h1>A local AI second brain<br />that runs on your machine.</h1>
 		<p class="lead">
 			Sovereign Brain is a private, offline AI assistant for your ideas — a
-			self-hosted second brain powered by a local LLM. You talk, it captures and
+			self-hosted second brain powered by a local LLM. You talk; it captures and
 			organizes everything into plain Markdown files that live on your disk.
-			<strong>No cloud. No subscription. No one reading your thoughts but you.</strong>
+			<span class="nb">No cloud. No subscription. No one reading your thoughts but you.</span>
 		</p>
-		<div class="cta">
-			<a class="btn" href={TEMPLATE_USE_URL}>Get the free template</a>
-			<a class="btn secondary" href={TEMPLATE_ZIP_URL}>Download ZIP</a>
+		<div class="cta-row">
+			<a href={TEMPLATE_USE_URL} class="btn primary">Get the free template <span class="arr">→</span></a>
+			<a href={TEMPLATE_ZIP_URL} class="btn ghost">Download ZIP</a>
 		</div>
-		<p class="micro">Free forever · Public domain · Works offline</p>
-		<Image
-			class="hero-img"
-			src={heroImage}
-			alt="A local AI second brain running on a laptop"
-			widths={[480, 760, 1200]}
-			sizes="(max-width: 760px) 100vw, 720px"
-			loading="eager"
-		/>
+		<div class="micro">FREE FOREVER · PUBLIC DOMAIN · WORKS OFFLINE</div>
 	</section>
 
-	<section id="what">
-		<h2>Your own private AI, not someone else's cloud</h2>
-		<p>
-			Cloud note apps and chatbots keep your thinking on their servers, behind
-			their subscription, on their terms. Sovereign Brain flips that: a local AI
-			agent runs on <em>your</em> computer using a local model, so your ideas,
-			plans, and projects never leave your machine.
-		</p>
-		<div class="grid">
-			<div class="card">
-				<h3>🔒 100% private</h3>
-				<p>Runs fully offline on local inference. Nothing is sent to any server.</p>
+	<!-- FIGURE / ELEVATION -->
+	<figure class="figwrap">
+		<div class="figframe">
+			<Image
+				src={heroImage}
+				alt="A hand-drawn brain on a laptop — a local AI second brain"
+				widths={[480, 760, 1100]}
+				sizes="(max-width: 720px) 100vw, 680px"
+				loading="eager"
+			/>
+		</div>
+		<figcaption class="figcap">
+			<span>FIG. 01 — the brain, drawn on your machine</span>
+			<span>NOTHING LEAVES THIS FRAME</span>
+		</figcaption>
+		<div class="dim">YOUR MACHINE · 100% LOCAL · OFFLINE</div>
+	</figure>
+
+	<!-- LEGEND / FEATURES -->
+	<section class="legend">
+		<div class="leg">
+			<div class="sym">
+				<svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="none" stroke="#2b2620" stroke-width="1.5"></circle><circle cx="20" cy="20" r="4" fill="#9c4f2c"></circle></svg>
 			</div>
-			<div class="card">
-				<h3>📄 Plain Markdown</h3>
-				<p>Every note is a <code>.md</code> file you own — open it in Obsidian, VS Code, or any editor.</p>
+			<div class="lbl">A</div>
+			<h3>100% private</h3>
+			<p>Runs fully offline on local inference. Nothing is sent to any server, ever.</p>
+		</div>
+		<div class="leg">
+			<div class="sym">
+				<svg width="40" height="40" viewBox="0 0 40 40"><rect x="6" y="6" width="28" height="28" fill="none" stroke="#2b2620" stroke-width="1.5"></rect><line x1="12" y1="16" x2="28" y2="16" stroke="#9c4f2c" stroke-width="1.5"></line><line x1="12" y1="22" x2="24" y2="22" stroke="#9c4f2c" stroke-width="1.5"></line></svg>
 			</div>
-			<div class="card">
-				<h3>🧠 Agent-driven</h3>
-				<p>Just talk. The agent summarizes and files key ideas, so capture is frictionless.</p>
+			<div class="lbl">B</div>
+			<h3>Plain Markdown</h3>
+			<p>Every note is a <code>.md</code> file you own — open it in Obsidian, VS Code, or any editor.</p>
+		</div>
+		<div class="leg">
+			<div class="sym">
+				<svg width="40" height="40" viewBox="0 0 40 40"><polygon points="20,6 34,32 6,32" fill="none" stroke="#2b2620" stroke-width="1.5"></polygon><circle cx="20" cy="24" r="3.5" fill="#9c4f2c"></circle></svg>
 			</div>
-			<div class="card">
-				<h3>🆓 Free &amp; open</h3>
-				<p>Public-domain template, no lock-in, no account. Fork it and make it yours.</p>
+			<div class="lbl">C</div>
+			<h3>Agent-driven</h3>
+			<p>Just talk. The agent summarizes and files key ideas, so capture is frictionless.</p>
+		</div>
+		<div class="leg">
+			<div class="sym">
+				<svg width="40" height="40" viewBox="0 0 40 40"><polygon points="20,5 35,20 20,35 5,20" fill="none" stroke="#2b2620" stroke-width="1.5"></polygon><circle cx="20" cy="20" r="4" fill="#9c4f2c"></circle></svg>
 			</div>
+			<div class="lbl">D</div>
+			<h3>Free &amp; open</h3>
+			<p>Public-domain template. No lock-in, no account. Fork it and make it yours.</p>
 		</div>
 	</section>
 
-	<section id="how-it-works">
+	<!-- HOW IT WORKS -->
+	<div class="cut" id="how"><span class="tag"><b>A·02</b> · HOW IT WORKS</span></div>
+	<div class="sec-head">
 		<h2>How your local AI second brain works</h2>
-		<ol class="steps">
-			<li>
-				<h3>1. Talk to it</h3>
-				<p>Brainstorm, think out loud, or dump what's on your mind — no forms, no folders to manage.</p>
-			</li>
-			<li>
-				<h3>2. It organizes for you</h3>
-				<p>The local agent extracts the key ideas and writes them to Markdown — sessions, projects, daily thoughts, todos.</p>
-			</li>
-			<li>
-				<h3>3. You own everything</h3>
-				<p>Files sit on your disk forever. Back them up, sync with git, or open them in any tool. Fully portable.</p>
-			</li>
-		</ol>
+	</div>
+	<section class="steps">
+		<div class="step">
+			<div class="num">STEP 01</div>
+			<h3>Talk to it</h3>
+			<p>Brainstorm, think out loud, or dump what's on your mind — no forms, no folders to manage.</p>
+		</div>
+		<div class="step">
+			<div class="num">STEP 02</div>
+			<h3>It organizes for you</h3>
+			<p>The local agent extracts the key ideas and writes them to Markdown — sessions, projects, daily thoughts, todos.</p>
+		</div>
+		<div class="step">
+			<div class="num">STEP 03</div>
+			<h3>You own everything</h3>
+			<p>Files sit on your disk forever. Back them up, sync with git, or open them in any tool. Fully portable.</p>
+		</div>
 	</section>
 
-	<section id="what-you-get">
+	<!-- INSIDE THE TEMPLATE -->
+	<div class="cut"><span class="tag"><b>A·03</b> · INSIDE THE TEMPLATE</span></div>
+	<div class="sec-head">
 		<h2>What's inside the template</h2>
-		<p>A clean, ready-to-run structure your AI agent already knows how to use:</p>
-		<pre class="tree"><code>sovereign-brain/
-├── AGENTS.md          # how your AI agent reads and grows the brain
-├── references/        # who the agent is + what it's for
+		<p>A clean, ready-to-run structure your AI agent already knows how to use.</p>
+	</div>
+	<div class="panel">
+		<div class="ttl"><span>FILE TREE — sovereign-brain/</span><span>PUBLIC DOMAIN</span></div>
+		<pre class="tree">sovereign-brain/
+├── <span class="d">AGENTS.md</span>          <span class="c"># how your AI agent reads + grows the brain</span>
+├── <span class="d">references/</span>        <span class="c"># who the agent is + what it's for</span>
 │   ├── purpose.md
 │   └── personality.md
-└── workspace/         # your living knowledge
+└── <span class="d">workspace/</span>         <span class="c"># your living knowledge</span>
     ├── daily-thoughts.md
     ├── todo-upcoming.md
     ├── new-project-ideas.md
     ├── project-history.md
     ├── projects/
-    └── sessions/      # summarized brainstorms, dated</code></pre>
-		<a class="btn" href={TEMPLATE_USE_URL}>Start your sovereign brain</a>
-	</section>
+    └── sessions/         <span class="c"># summarized brainstorms, dated</span></pre>
+	</div>
+	<div class="cta-row">
+		<a href={TEMPLATE_USE_URL} class="btn primary">Start your sovereign brain <span class="arr">→</span></a>
+	</div>
 
-	<section id="requirements">
+	<!-- REQUIREMENTS -->
+	<div class="cut"><span class="tag"><b>A·04</b> · REQUIREMENTS</span></div>
+	<div class="sec-head">
 		<h2>What you'll need</h2>
-		<p>
-			Sovereign Brain runs a real language model locally, so it's built for people
-			who want full privacy and own capable hardware:
-		</p>
-		<ul class="reqs">
-			<li>A machine with <strong>32&nbsp;GB+ RAM</strong> to run a local model</li>
-			<li>A local inference setup (<code>llama.cpp</code> + an open model)</li>
-			<li>An agent harness to drive it (the template is set up for <a href="https://pi.dev/" target="_blank" rel="noopener">Pi</a>)</li>
-		</ul>
-		<p class="micro">New to local AI? See <a href="#how-it-works">how it works</a> above, or the <a href="/blog">blog</a> for setup guides.</p>
+		<p>Sovereign Brain runs a real language model locally, so it's built for people who want full privacy and own capable hardware.</p>
+	</div>
+	<div class="notes">
+		<div class="lhead">DRAWING NOTES — REQUIRED SETUP</div>
+		<div class="row"><div class="k">01 · HARDWARE</div><div class="v">A machine with <b>32&nbsp;GB+ RAM</b> to run a local model.</div></div>
+		<div class="row"><div class="k">02 · INFERENCE</div><div class="v">A local inference setup — <code>llama.cpp</code> plus an open model.</div></div>
+		<div class="row"><div class="k">03 · AGENT</div><div class="v">An agent harness to drive it (the template is set up for one).</div></div>
+	</div>
+	<p class="micro" style="margin-top:14px">
+		NEW TO LOCAL AI? SEE <a href="#how">HOW IT WORKS</a> ABOVE, OR THE BLOG FOR SETUP GUIDES.
+	</p>
+
+	<!-- FAQ -->
+	<div class="cut" id="faq"><span class="tag"><b>A·05</b> · COMMON QUESTIONS</span></div>
+	<div class="sec-head"><h2>Common questions</h2></div>
+	<section class="faq">
+		<div><p class="q">Is my data private?</p><p class="a">Yes — it runs offline on your machine, nothing is uploaded to any server.</p></div>
+		<div><p class="q">Does it cost anything?</p><p class="a">No. The template is free and released into the public domain.</p></div>
+		<div><p class="q">Can I use my own editor?</p><p class="a">Yes — it's plain Markdown, so Obsidian, VS Code, and any editor work.</p></div>
+		<div><p class="q">How is it different from ChatGPT or Notion AI?</p><p class="a">Those run in the cloud on a subscription. Sovereign Brain runs locally, keeps data on your disk, works offline, and costs nothing.</p></div>
 	</section>
 
-	<section id="faq">
-		<h2>Common questions</h2>
-		<dl class="faq-list">
-			<dt>Is my data private?</dt>
-			<dd>Yes — it runs offline on your machine, nothing is uploaded to any server.</dd>
-			<dt>Does it cost anything?</dt>
-			<dd>No. The template is free and released into the public domain.</dd>
-			<dt>Can I use my own editor?</dt>
-			<dd>Yes — it's plain Markdown, so Obsidian, VS Code, and any editor work.</dd>
-			<dt>How is it different from ChatGPT or Notion AI?</dt>
-			<dd>Those run in the cloud on a subscription. Sovereign Brain runs locally, keeps your data on your disk, works offline, and costs nothing.</dd>
-		</dl>
-	</section>
-
+	<!-- FROM THE BLOG -->
 	{
-		posts.length > 0 && (
-			<section id="latest">
-				<h2>From the blog</h2>
-				<ul class="posts">
-					{posts.map((post) => (
-						<li>
-							<a href={`/blog/${post.id}/`}>{post.data.title}</a>
-							<p class="date">
-								<FormattedDate date={post.data.pubDate} />
-							</p>
-						</li>
-					))}
-				</ul>
-				<a class="textlink" href="/blog">All articles →</a>
-			</section>
+		latest && (
+			<>
+				<div class="cut" id="blog"><span class="tag"><b>A·06</b> · FROM THE BLOG</span></div>
+				<div class="sec-head"><h2>From the blog</h2></div>
+				<div class="blogrow">
+					<span class="date">{blogDate}<br />{blogYear}</span>
+					<a href={`/blog/${latest.id}/`} class="title">{latest.data.title}</a>
+				</div>
+				<a href="/blog" class="alllink">All articles →</a>
+			</>
 		)
 	}
 </Page>
 
 <style>
 	.hero {
-		padding: 2.5rem 0 1rem;
+		text-align: center;
+		padding: 44px 0 8px;
 	}
-	.eyebrow {
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		font-size: 0.8rem;
-		font-weight: 700;
-		color: var(--accent);
-		margin: 0 0 0.5rem;
+	.hero .lead {
+		margin: 22px auto 0;
 	}
-	.lead {
-		font-size: 1.2rem;
-		max-width: 40rem;
+	.hero .cta-row {
+		justify-content: center;
 	}
-	.cta {
-		display: flex;
-		gap: 0.75rem;
-		flex-wrap: wrap;
-		margin-top: 1.5rem;
+	.hero .micro {
+		margin-top: 18px;
 	}
-	.micro {
-		font-size: 0.85rem;
-		color: rgb(var(--gray));
-		margin-top: 0.75rem;
+
+	/* figure / elevation */
+	.figwrap {
+		margin: 46px auto 8px;
+		max-width: 680px;
 	}
-	.hero-img {
+	.figframe {
+		position: relative;
+		border: 1.5px solid var(--ink);
+		background: var(--panel);
+		background-image: repeating-linear-gradient(
+			45deg,
+			transparent 0 9px,
+			rgba(43, 38, 32, 0.05) 9px 10px
+		);
+		aspect-ratio: 16 / 10;
+		overflow: hidden;
+	}
+	.figframe :global(img) {
 		width: 100%;
-		height: auto;
-		margin-top: 2rem;
-		border-radius: 12px;
-		box-shadow: var(--box-shadow);
+		height: 100%;
+		object-fit: cover;
+		display: block;
 	}
-	.btn {
-		display: inline-block;
+	.figcap {
+		display: flex;
+		justify-content: space-between;
+		font-family: var(--mono);
+		font-size: 11px;
+		color: var(--ink-soft);
+		letter-spacing: 0.5px;
+		margin-top: 9px;
+	}
+	.dim {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		font-family: var(--mono);
+		font-size: 10px;
+		letter-spacing: 1px;
+		color: var(--ink-soft);
+		margin: 14px 4px 0;
+		justify-content: center;
+	}
+	.dim::before,
+	.dim::after {
+		content: '';
+		height: 1px;
+		background: var(--line);
+		flex: 1;
+	}
+
+	/* legend / features */
+	.legend {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 26px;
+		margin: 40px 0 8px;
+	}
+	.leg {
+		position: relative;
+		padding-top: 20px;
+	}
+	.leg::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 34px;
+		height: 1px;
 		background: var(--accent);
-		color: #fff;
-		padding: 0.7rem 1.3rem;
-		border-radius: 8px;
-		font-weight: 700;
-		text-decoration: none;
 	}
-	.btn:hover {
-		background: var(--accent-dark);
-		color: #fff;
+	.leg .sym {
+		width: 42px;
+		height: 42px;
+		display: grid;
+		place-items: center;
+		margin-bottom: 12px;
 	}
-	.btn.secondary {
-		background: transparent;
+	.leg .lbl {
+		font-family: var(--mono);
+		font-size: 12px;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
 		color: var(--accent);
-		border: 1px solid rgb(var(--gray-light));
 	}
-	.btn.secondary:hover {
-		background: rgb(var(--gray-light));
-		color: var(--accent-dark);
+	.leg h3 {
+		font-size: 20px;
+		margin: 5px 0 6px;
 	}
-	.textlink {
-		display: inline-block;
-		margin-top: 1rem;
-		font-weight: 700;
+	.leg p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.5;
+		color: var(--ink-soft);
 	}
-	section {
-		margin-top: 3.5rem;
-	}
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: 1rem;
-		margin-top: 1.5rem;
-	}
-	.card {
-		background: #fff;
-		border: 1px solid rgb(var(--gray-light));
-		border-radius: 12px;
-		padding: 1.25rem;
-	}
-	.card h3 {
-		margin-top: 0;
-		font-size: 1.15rem;
-	}
+
+	/* how it works */
 	.steps {
-		list-style: none;
-		padding: 0;
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-		gap: 1rem;
-		margin-top: 1.5rem;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0;
+		margin-top: 34px;
 	}
-	.steps h3 {
-		font-size: 1.15rem;
-		margin-bottom: 0.3rem;
+	.step {
+		position: relative;
+		padding: 0 26px;
+	}
+	.step:not(:last-child) {
+		border-right: 1px dashed var(--line);
+	}
+	.step .num {
+		font-family: var(--mono);
+		font-size: 13px;
+		color: var(--accent);
+		letter-spacing: 2px;
+	}
+	.step h3 {
+		font-size: 23px;
+		margin: 10px 0 8px;
+	}
+	.step p {
+		margin: 0;
+		font-size: 16px;
+		color: var(--ink-soft);
+		line-height: 1.55;
+	}
+
+	/* template panel */
+	.panel {
+		border: 1.5px solid var(--ink);
+		background: var(--panel);
+		margin-top: 30px;
+	}
+	.panel .ttl {
+		font-family: var(--mono);
+		font-size: 11px;
+		letter-spacing: 1.5px;
+		color: var(--ink-soft);
+		padding: 11px 18px;
+		border-bottom: 1px dashed var(--line);
+		display: flex;
+		justify-content: space-between;
 	}
 	.tree {
-		font-size: 0.9rem;
-		line-height: 1.5;
-	}
-	.reqs {
-		padding-left: 1.1rem;
-	}
-	.reqs li {
-		margin-bottom: 0.5rem;
-	}
-	.faq-list {
-		margin-top: 1.5rem;
-	}
-	.faq-list dt {
-		font-weight: 700;
-		margin-top: 1rem;
-	}
-	.faq-list dd {
-		margin: 0.25rem 0 0;
-	}
-	.posts {
-		list-style: none;
-		padding: 0;
-	}
-	.posts li {
-		margin-bottom: 0.8rem;
-	}
-	.posts .date {
+		font-family: var(--mono);
+		font-size: 14px;
+		line-height: 1.85;
+		padding: 20px 22px;
 		margin: 0;
-		color: rgb(var(--gray));
-		font-size: 0.9rem;
+		overflow: auto;
+		white-space: pre;
+	}
+	.tree .c {
+		color: var(--accent);
+	}
+	.tree .d {
+		font-weight: 700;
+	}
+
+	/* requirements notes */
+	.notes {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0 22px;
+		margin-top: 30px;
+		border: 1.5px solid var(--ink);
+	}
+	.notes .lhead {
+		grid-column: 1 / -1;
+		font-family: var(--mono);
+		font-size: 11px;
+		letter-spacing: 1.5px;
+		color: var(--ink-soft);
+		padding: 11px 18px;
+		border-bottom: 1px dashed var(--line);
+	}
+	.notes .row {
+		display: contents;
+	}
+	.notes .k {
+		font-family: var(--mono);
+		font-size: 12px;
+		color: var(--accent);
+		padding: 14px 18px;
+		border-bottom: 1px dashed var(--line-soft);
+		letter-spacing: 1px;
+	}
+	.notes .v {
+		padding: 14px 18px 14px 0;
+		border-bottom: 1px dashed var(--line-soft);
+		font-size: 17px;
+	}
+	.notes .row:last-child .k,
+	.notes .row:last-child .v {
+		border-bottom: 0;
+	}
+
+	/* faq */
+	.faq {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 30px 44px;
+		margin-top: 34px;
+	}
+	.faq .q {
+		font-family: var(--serif);
+		font-weight: 600;
+		font-size: 20px;
+		margin: 0 0 7px;
+	}
+	.faq .a {
+		margin: 0;
+		font-size: 16px;
+		color: var(--ink-soft);
+		line-height: 1.55;
+	}
+
+	/* blog teaser */
+	.blogrow {
+		display: flex;
+		align-items: flex-start;
+		gap: 20px;
+		margin-top: 30px;
+		border-top: 1px solid var(--line);
+		border-bottom: 1px solid var(--line);
+		padding: 24px 0;
+	}
+	.blogrow .date {
+		font-family: var(--mono);
+		font-size: 11px;
+		color: var(--ink-soft);
+		letter-spacing: 1px;
+		white-space: nowrap;
+		padding-top: 5px;
+	}
+	.blogrow a.title {
+		font-family: var(--serif);
+		font-weight: 500;
+		font-size: 24px;
+		color: var(--ink);
+		text-decoration: none;
+		line-height: 1.2;
+	}
+	.blogrow a.title:hover {
+		color: var(--accent);
+	}
+	.alllink {
+		display: inline-block;
+		margin-top: 22px;
+		font-family: var(--mono);
+		font-size: 13px;
+		color: var(--accent);
+		text-decoration: none;
+	}
+	.alllink:hover {
+		text-decoration: underline;
+	}
+
+	@media (max-width: 760px) {
+		.steps {
+			grid-template-columns: 1fr;
+			gap: 30px;
+		}
+		.step {
+			border-right: 0 !important;
+			padding: 0;
+		}
+	}
+	@media (max-width: 680px) {
+		.legend {
+			grid-template-columns: 1fr;
+		}
+		.faq {
+			grid-template-columns: 1fr;
+		}
+	}
+	@media (max-width: 560px) {
+		.notes {
+			grid-template-columns: 1fr;
+		}
+		.notes .v {
+			padding: 0 18px 14px;
+		}
+		.notes .k {
+			border-bottom: 0;
+			padding-bottom: 4px;
+		}
 	}
 </style>

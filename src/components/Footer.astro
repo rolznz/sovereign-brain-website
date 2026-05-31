@@ -4,57 +4,106 @@ import { comparisons } from '../data/comparisons';
 const today = new Date();
 ---
 
+<!-- Architect's title block -->
+<div class="titleblock">
+	<div><div class="k">Project</div><div class="v">{SITE_TITLE} — Homepage</div></div>
+	<div><div class="k">Sheet</div><div class="v">A · 01</div></div>
+	<div><div class="k">Scale</div><div class="v sm">1 : 1</div></div>
+	<div><div class="k">Revision</div><div class="v sm">Hi-Fi · Direction A</div></div>
+</div>
+
 <footer>
-	<div class="footer-cols">
-		<div class="col">
-			<h3>{SITE_TITLE}</h3>
-			<a href="/blog">Blog</a>
-			<a href={TEMPLATE_REPO} target="_blank" rel="noopener">Template repo</a>
-			<a href="/rss.xml">RSS</a>
-		</div>
-		<div class="col">
-			<h3>Compare</h3>
-			{comparisons.map((c) => <a href={`/vs/${c.slug}`}>vs {c.name}</a>)}
-		</div>
-	</div>
-	<p class="copy">&copy; {today.getFullYear()} {SITE_TITLE}</p>
+	<span>{today.getFullYear()} {SITE_TITLE} · public domain</span>
+	<span class="links">
+		<a href="/blog">Blog</a>
+		<a href={TEMPLATE_REPO} target="_blank" rel="noopener">Template repo</a>
+		<a href="/rss.xml">RSS</a>
+	</span>
 </footer>
+
+<nav class="compare-row" aria-label="Comparisons">
+	<span class="ctag mono">COMPARE —</span>
+	{comparisons.map((c) => <a href={`/vs/${c.slug}`}>vs {c.name}</a>)}
+</nav>
+
 <style>
-	footer {
-		padding: 3em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
+	.titleblock {
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr 1fr;
+		border: 1.5px solid var(--ink);
+		margin: 64px 0 0;
 	}
-	.footer-cols {
-		max-width: 720px;
-		margin: 0 auto;
+	.titleblock > div {
+		border-right: 1px solid var(--line);
+		padding: 13px 16px;
+	}
+	.titleblock > div:last-child {
+		border-right: 0;
+	}
+	.titleblock .k {
+		font-family: var(--mono);
+		font-size: 10px;
+		letter-spacing: 1.5px;
+		color: var(--ink-soft);
+		text-transform: uppercase;
+	}
+	.titleblock .v {
+		font-family: var(--serif);
+		font-weight: 600;
+		font-size: 17px;
+		margin-top: 4px;
+	}
+	.titleblock .v.sm {
+		font-size: 14px;
+	}
+	footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 16px;
+		padding: 26px 0 10px;
+		font-family: var(--mono);
+		font-size: 12px;
+		color: var(--ink-soft);
+	}
+	footer .links {
+		display: flex;
+		gap: 24px;
+	}
+	footer a {
+		color: var(--ink-soft);
+		text-decoration: none;
+	}
+	footer a:hover {
+		color: var(--accent);
+	}
+	.compare-row {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 2em 4em;
+		gap: 18px;
+		align-items: center;
+		padding: 0 0 34px;
+		font-family: var(--mono);
+		font-size: 12px;
 	}
-	.col {
-		display: flex;
-		flex-direction: column;
-		gap: 0.4em;
+	.compare-row .ctag {
+		color: var(--ink-soft);
+		letter-spacing: 1px;
 	}
-	.col h3 {
-		font-size: 0.85rem;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		color: rgb(var(--gray-dark));
-		margin: 0 0 0.3em;
-	}
-	.col a {
+	.compare-row a {
+		color: var(--ink-soft);
 		text-decoration: none;
-		color: rgb(var(--gray));
 	}
-	.col a:hover {
-		color: rgb(var(--gray-dark));
+	.compare-row a:hover {
+		color: var(--accent);
 	}
-	.copy {
-		max-width: 720px;
-		margin: 2.5em auto 0;
-		font-size: 0.85rem;
-		text-align: left;
+	@media (max-width: 680px) {
+		.titleblock {
+			grid-template-columns: 1fr 1fr;
+		}
+		.titleblock > div:nth-child(2) {
+			border-right: 0;
+		}
 	}
 </style>
