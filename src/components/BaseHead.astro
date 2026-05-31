@@ -12,8 +12,14 @@ import '@fontsource/caveat/600.css';
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 import FallbackImage from '../assets/local-ai-second-brain-laptop.jpg';
+import IconSource from '../assets/sovereign-brain-2-512x512.jpg';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+// Favicon + apple-touch-icon generated from the brand illustration at build time.
+const favicon = await getImage({ src: IconSource, width: 32, height: 32, format: 'png' });
+const favicon180 = await getImage({ src: IconSource, width: 180, height: 180, format: 'png' });
 
 interface Props {
 	title: string;
@@ -54,8 +60,8 @@ const jsonLd = isArticle
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href={favicon.src} />
+<link rel="apple-touch-icon" sizes="180x180" href={favicon180.src} />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
 	rel="alternate"
