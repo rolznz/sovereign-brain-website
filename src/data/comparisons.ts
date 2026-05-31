@@ -144,4 +144,48 @@ export const comparisons: Comparison[] = [
 		verdict:
 			'They’re not really rivals — point Sovereign Brain at the same folder and edit it in Obsidian. The difference is that Sovereign Brain is fully open source and ships a private local AI agent, instead of relying on closed apps and cloud plugins for intelligence.',
 	},
+	{
+		slug: 'openclaw',
+		name: 'OpenClaw',
+		title: 'Sovereign Brain vs OpenClaw: The Right Agent for a Local Brain',
+		description:
+			'Sovereign Brain vs OpenClaw — why a minimal agent harness beats a general-purpose one for a local-model second brain. Context efficiency, simplicity, and focus compared.',
+		heading: 'Sovereign Brain vs OpenClaw',
+		intro:
+			'OpenClaw is a powerful, general-purpose agent framework built for complex automation and big tool ecosystems. Sovereign Brain takes the opposite approach: it pairs your notes with the minimal Pi agent, whose tiny system prompt leaves your local model’s limited context window free for what actually matters — your thinking.',
+		rows: [
+			{ feature: 'Designed for', sovereign: 'A focused local second brain', competitor: 'General-purpose agent automation' },
+			{ feature: 'System prompt', sovereign: 'Minimal — maximizes usable context', competitor: 'Large — consumes context budget' },
+			{ feature: 'Best with', sovereign: 'Local models on modest hardware', competitor: 'Big or cloud models with room to spare' },
+			{ feature: 'Setup', sovereign: 'Simple — run it in your folder', competitor: 'Heavier — more moving parts' },
+			{ feature: 'Footprint', sovereign: 'Lightweight and efficient', competitor: 'Feature-rich but heavier' },
+			{ feature: 'Focus', sovereign: 'Thinking, capture, reflection', competitor: 'Broad tasks and tool use' },
+		],
+		competitorWins:
+			'Credit where due: for complex, multi-tool agent workflows — orchestrating many integrations or long automation chains — a general-purpose framework like OpenClaw can do far more than a deliberately minimal harness.',
+		verdict:
+			'But a second brain isn’t an automation platform. When you’re running a model locally, every token of context spent on a sprawling agent prompt is a token stolen from your own notes. Sovereign Brain keeps the harness minimal on purpose, so the model stays focused on you.',
+	},
+	{
+		slug: 'hermes',
+		name: 'Hermes',
+		title: 'Sovereign Brain vs Hermes: The Right Agent for a Local Brain',
+		description:
+			'Sovereign Brain vs Hermes — why a minimal, focused agent beats a general-purpose one for a local-model second brain. Context efficiency, simplicity, and focus compared.',
+		heading: 'Sovereign Brain vs Hermes',
+		intro:
+			'Hermes is a capable, general-purpose agent harness aimed at broad tasks and rich tool use. Sovereign Brain instead uses the minimal Pi agent, trading breadth for efficiency: a small system prompt that keeps your local model’s context window free for your actual ideas, plans, and reflections.',
+		rows: [
+			{ feature: 'Designed for', sovereign: 'A focused local second brain', competitor: 'General-purpose agent tasks' },
+			{ feature: 'System prompt', sovereign: 'Minimal — maximizes usable context', competitor: 'Large — consumes context budget' },
+			{ feature: 'Best with', sovereign: 'Local models on modest hardware', competitor: 'Larger models with context to spare' },
+			{ feature: 'Setup', sovereign: 'Simple — run it in your folder', competitor: 'Heavier — more to configure' },
+			{ feature: 'Footprint', sovereign: 'Lightweight and efficient', competitor: 'Feature-rich but heavier' },
+			{ feature: 'Focus', sovereign: 'Thinking, capture, reflection', competitor: 'Broad tasks and tool use' },
+		],
+		competitorWins:
+			'Fairly: if you need a do-everything agent with a wide range of built-in tools and integrations, Hermes’ general-purpose design gives you more out of the box than an intentionally stripped-down harness.',
+		verdict:
+			'For a private second brain on local hardware, though, less is more. The point isn’t to run the most capable agent — it’s to keep the context window clear for your own thoughts. Sovereign Brain stays minimal so your local model spends its attention on you, not on itself.',
+	},
 ];
