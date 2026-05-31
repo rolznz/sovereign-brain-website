@@ -1,0 +1,71 @@
+---
+// Embedded asciinema player for the product demo, styled to match the
+// architect's drawing-sheet aesthetic. The .cast is served from /public.
+// Click-to-play (no autoplay) at the given speed.
+import 'asciinema-player/dist/bundle/asciinema-player.css';
+
+interface Props {
+	/** Path to the .cast file (under /public). */
+	src?: string;
+	/** Playback speed multiplier. */
+	speed?: number;
+}
+
+const { src = '/sovereignbrain.cast', speed = 2 } = Astro.props;
+const opts = JSON.stringify({ speed });
+---
+
+<div class="term-frame">
+	<div class="term-bar">
+		<span>TERMINAL — pi @ sovereign-brain</span>
+		<span>2× · LOCAL</span>
+	</div>
+	<div class="asciinema" data-src={src} data-opts={opts}></div>
+</div>
+
+<script>
+	import * as AsciinemaPlayer from 'asciinema-player';
+
+	function mount() {
+		document.querySelectorAll<HTMLElement>('.asciinema').forEach((el) => {
+			if (el.dataset.mounted) return;
+			el.dataset.mounted = 'true';
+			const opts = JSON.parse(el.dataset.opts || '{}');
+			AsciinemaPlayer.create(el.dataset.src!, el, {
+				...opts,
+				// Click-to-play: show a poster frame, start paused.
+				poster: 'npt:0:08',
+				controls: true,
+				fit: 'width',
+				terminalFontFamily: "'Space Mono', monospace",
+			});
+		});
+	}
+
+	mount();
+	document.addEventListener('astro:page-load', mount);
+</script>
+
+<style>
+	.term-frame {
+		border: 1.5px solid var(--ink);
+		background: #1a1714;
+	}
+	.term-bar {
+		display: flex;
+		justify-content: space-between;
+		font-family: var(--mono);
+		font-size: 11px;
+		letter-spacing: 1.5px;
+		color: var(--ink-soft);
+		background: var(--panel);
+		padding: 9px 14px;
+		border-bottom: 1.5px solid var(--ink);
+	}
+	.asciinema {
+		width: 100%;
+	}
+	.asciinema :global(.ap-player) {
+		border-radius: 0;
+	}
+</style>

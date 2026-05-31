@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Page from '../layouts/Page.astro';
+import Terminal from '../components/Terminal.astro';
 import heroImage from '../assets/local-ai-second-brain-laptop.jpg';
 import { TEMPLATE_USE_URL, TEMPLATE_ZIP_URL } from '../consts';
 
@@ -57,6 +58,16 @@ const description =
 		<div class="dim">YOUR MACHINE · 100% LOCAL · OFFLINE</div>
 	</figure>
 
+	<!-- SEE IT IN ACTION -->
+	<div class="cut" id="demo"><span class="tag"><b>A·02</b> · SEE IT IN ACTION</span></div>
+	<div class="sec-head">
+		<h2>Watch a real session</h2>
+		<p>A real terminal session onboarding on my laptop, played back at 2×.</p>
+	</div>
+	<div class="demo-wrap">
+		<Terminal src="/sovereignbrain.cast" speed={2} />
+	</div>
+
 	<!-- LEGEND / FEATURES -->
 	<section class="legend">
 		<div class="leg">
@@ -90,7 +101,7 @@ const description =
 	</section>
 
 	<!-- HOW IT WORKS -->
-	<div class="cut" id="how"><span class="tag"><b>A·02</b> · HOW IT WORKS</span></div>
+	<div class="cut" id="how"><span class="tag"><b>A·03</b> · HOW IT WORKS</span></div>
 	<div class="sec-head">
 		<h2>How your local AI second brain works</h2>
 	</div>
@@ -113,7 +124,7 @@ const description =
 	</section>
 
 	<!-- INSIDE THE TEMPLATE -->
-	<div class="cut"><span class="tag"><b>A·03</b> · INSIDE THE TEMPLATE</span></div>
+	<div class="cut"><span class="tag"><b>A·04</b> · INSIDE THE TEMPLATE</span></div>
 	<div class="sec-head">
 		<h2>What's inside the template</h2>
 		<p>A clean, ready-to-run structure your AI agent already knows how to use.</p>
@@ -138,7 +149,7 @@ const description =
 	</div>
 
 	<!-- REQUIREMENTS -->
-	<div class="cut"><span class="tag"><b>A·04</b> · REQUIREMENTS</span></div>
+	<div class="cut"><span class="tag"><b>A·05</b> · REQUIREMENTS</span></div>
 	<div class="sec-head">
 		<h2>What you'll need</h2>
 		<p>Sovereign Brain runs a real language model locally, so it's built for people who want full privacy and own capable hardware.</p>
@@ -154,7 +165,7 @@ const description =
 	</p>
 
 	<!-- FAQ -->
-	<div class="cut" id="faq"><span class="tag"><b>A·05</b> · COMMON QUESTIONS</span></div>
+	<div class="cut" id="faq"><span class="tag"><b>A·06</b> · COMMON QUESTIONS</span></div>
 	<div class="sec-head"><h2>Common questions</h2></div>
 	<section class="faq">
 		<div><p class="q">Is my data private?</p><p class="a">Yes — it runs offline on your machine, nothing is uploaded to any server.</p></div>
@@ -167,7 +178,7 @@ const description =
 	{
 		latest && (
 			<>
-				<div class="cut" id="blog"><span class="tag"><b>A·06</b> · FROM THE BLOG</span></div>
+				<div class="cut" id="blog"><span class="tag"><b>A·07</b> · FROM THE BLOG</span></div>
 				<div class="sec-head"><h2>From the blog</h2></div>
 				<div class="blogrow">
 					<span class="date">{blogDate}<br />{blogYear}</span>
@@ -216,6 +227,9 @@ const description =
 		height: 100%;
 		object-fit: cover;
 		display: block;
+	}
+	.demo-wrap {
+		margin-top: 4px;
 	}
 	.figcap {
 		display: flex;
