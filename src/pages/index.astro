@@ -1,117 +1,190 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
 import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
-import {
-	SITE_DESCRIPTION,
-	SITE_TITLE,
-	TEMPLATE_USE_URL,
-	TEMPLATE_ZIP_URL,
-} from '../consts';
+import Page from '../layouts/Page.astro';
+import heroImage from '../assets/local-ai-second-brain-laptop.jpg';
+import { TEMPLATE_USE_URL, TEMPLATE_ZIP_URL } from '../consts';
 
 const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 	.slice(0, 3);
+
+const title = 'Local AI Second Brain — Private, Offline & Yours | Sovereign Brain';
+const description =
+	'Sovereign Brain is a free, local AI second brain that runs entirely on your own machine. Private, offline, no cloud, no subscription. Download the open-source template.';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section class="hero">
-				<h1>Own your second brain.</h1>
-				<p class="lead">
-					A sovereign brain is a self-owned knowledge system built from plain
-					Markdown files — no lock-in, no subscription, no cloud you don't
-					control. Download the free, agent-ready template and start today.
-				</p>
-				<div class="cta">
-					<a class="btn" href={TEMPLATE_USE_URL}>Get the template</a>
-					<a class="btn secondary" href={TEMPLATE_ZIP_URL}>Download ZIP</a>
-				</div>
-			</section>
+<Page title={title} description={description}>
+	<section class="hero">
+		<p class="eyebrow">Local · Private · Open source</p>
+		<h1>A local AI second brain that runs on your machine.</h1>
+		<p class="lead">
+			Sovereign Brain is a private, offline AI assistant for your ideas — a
+			self-hosted second brain powered by a local LLM. You talk, it captures and
+			organizes everything into plain Markdown files that live on your disk.
+			<strong>No cloud. No subscription. No one reading your thoughts but you.</strong>
+		</p>
+		<div class="cta">
+			<a class="btn" href={TEMPLATE_USE_URL}>Get the free template</a>
+			<a class="btn secondary" href={TEMPLATE_ZIP_URL}>Download ZIP</a>
+		</div>
+		<p class="micro">Free forever · Public domain · Works offline</p>
+		<Image
+			class="hero-img"
+			src={heroImage}
+			alt="A local AI second brain running on a laptop"
+			widths={[480, 760, 1200]}
+			sizes="(max-width: 760px) 100vw, 720px"
+			loading="eager"
+		/>
+	</section>
 
-			<section id="how-it-works">
-				<h2>How it works</h2>
-				<div class="grid">
-					<div class="card">
-						<h3>1. Get the files</h3>
-						<p>
-							Clone the template or click “Use this template.” You get a clean
-							folder of Markdown — a home note, conventions, and agent
-							instructions.
-						</p>
-					</div>
-					<div class="card">
-						<h3>2. Open it anywhere</h3>
-						<p>
-							Works with Obsidian, VS Code, or any plain-text editor. It's just
-							files on your disk — yours forever, fully portable.
-						</p>
-					</div>
-					<div class="card">
-						<h3>3. Grow it your way</h3>
-						<p>
-							Capture, link, and write. Sync with git, iCloud, or nothing at
-							all. Point your AI agent at it via <code>AGENTS.md</code>.
-						</p>
-					</div>
-				</div>
-			</section>
+	<section id="what">
+		<h2>Your own private AI, not someone else's cloud</h2>
+		<p>
+			Cloud note apps and chatbots keep your thinking on their servers, behind
+			their subscription, on their terms. Sovereign Brain flips that: a local AI
+			agent runs on <em>your</em> computer using a local model, so your ideas,
+			plans, and projects never leave your machine.
+		</p>
+		<div class="grid">
+			<div class="card">
+				<h3>🔒 100% private</h3>
+				<p>Runs fully offline on local inference. Nothing is sent to any server.</p>
+			</div>
+			<div class="card">
+				<h3>📄 Plain Markdown</h3>
+				<p>Every note is a <code>.md</code> file you own — open it in Obsidian, VS Code, or any editor.</p>
+			</div>
+			<div class="card">
+				<h3>🧠 Agent-driven</h3>
+				<p>Just talk. The agent summarizes and files key ideas, so capture is frictionless.</p>
+			</div>
+			<div class="card">
+				<h3>🆓 Free &amp; open</h3>
+				<p>Public-domain template, no lock-in, no account. Fork it and make it yours.</p>
+			</div>
+		</div>
+	</section>
 
-			<section id="why">
-				<h2>Why sovereign?</h2>
-				<ul class="why">
-					<li><strong>Plain text outlives apps.</strong> Markdown still opens in 20 years.</li>
-					<li><strong>No lock-in.</strong> No proprietary database, no export hostage situation.</li>
-					<li><strong>Privacy by default.</strong> The files live where you put them.</li>
-					<li><strong>Agent-ready.</strong> Ships with an <code>AGENTS.md</code> so AI tools work with your brain.</li>
+	<section id="how-it-works">
+		<h2>How your local AI second brain works</h2>
+		<ol class="steps">
+			<li>
+				<h3>1. Talk to it</h3>
+				<p>Brainstorm, think out loud, or dump what's on your mind — no forms, no folders to manage.</p>
+			</li>
+			<li>
+				<h3>2. It organizes for you</h3>
+				<p>The local agent extracts the key ideas and writes them to Markdown — sessions, projects, daily thoughts, todos.</p>
+			</li>
+			<li>
+				<h3>3. You own everything</h3>
+				<p>Files sit on your disk forever. Back them up, sync with git, or open them in any tool. Fully portable.</p>
+			</li>
+		</ol>
+	</section>
+
+	<section id="what-you-get">
+		<h2>What's inside the template</h2>
+		<p>A clean, ready-to-run structure your AI agent already knows how to use:</p>
+		<pre class="tree"><code>sovereign-brain/
+├── AGENTS.md          # how your AI agent reads and grows the brain
+├── references/        # who the agent is + what it's for
+│   ├── purpose.md
+│   └── personality.md
+└── workspace/         # your living knowledge
+    ├── daily-thoughts.md
+    ├── todo-upcoming.md
+    ├── new-project-ideas.md
+    ├── project-history.md
+    ├── projects/
+    └── sessions/      # summarized brainstorms, dated</code></pre>
+		<a class="btn" href={TEMPLATE_USE_URL}>Start your sovereign brain</a>
+	</section>
+
+	<section id="requirements">
+		<h2>What you'll need</h2>
+		<p>
+			Sovereign Brain runs a real language model locally, so it's built for people
+			who want full privacy and own capable hardware:
+		</p>
+		<ul class="reqs">
+			<li>A machine with <strong>32&nbsp;GB+ RAM</strong> to run a local model</li>
+			<li>A local inference setup (<code>llama.cpp</code> + an open model)</li>
+			<li>An agent harness to drive it (the template is set up for <a href="https://pi.dev/" target="_blank" rel="noopener">Pi</a>)</li>
+		</ul>
+		<p class="micro">New to local AI? See <a href="#how-it-works">how it works</a> above, or the <a href="/blog">blog</a> for setup guides.</p>
+	</section>
+
+	<section id="faq">
+		<h2>Common questions</h2>
+		<dl class="faq-list">
+			<dt>Is my data private?</dt>
+			<dd>Yes — it runs offline on your machine, nothing is uploaded to any server.</dd>
+			<dt>Does it cost anything?</dt>
+			<dd>No. The template is free and released into the public domain.</dd>
+			<dt>Can I use my own editor?</dt>
+			<dd>Yes — it's plain Markdown, so Obsidian, VS Code, and any editor work.</dd>
+			<dt>How is it different from ChatGPT or Notion AI?</dt>
+			<dd>Those run in the cloud on a subscription. Sovereign Brain runs locally, keeps your data on your disk, works offline, and costs nothing.</dd>
+		</dl>
+	</section>
+
+	{
+		posts.length > 0 && (
+			<section id="latest">
+				<h2>From the blog</h2>
+				<ul class="posts">
+					{posts.map((post) => (
+						<li>
+							<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+							<p class="date">
+								<FormattedDate date={post.data.pubDate} />
+							</p>
+						</li>
+					))}
 				</ul>
-				<a class="btn" href={TEMPLATE_USE_URL}>Start your sovereign brain</a>
+				<a class="textlink" href="/blog">All articles →</a>
 			</section>
-
-			{
-				posts.length > 0 && (
-					<section id="latest">
-						<h2>From the blog</h2>
-						<ul class="posts">
-							{posts.map((post) => (
-								<li>
-									<a href={`/blog/${post.id}/`}>{post.data.title}</a>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</li>
-							))}
-						</ul>
-						<a href="/blog">All articles →</a>
-					</section>
-				)
-			}
-		</main>
-		<Footer />
-	</body>
-</html>
+		)
+	}
+</Page>
 
 <style>
 	.hero {
-		padding: 2rem 0 1rem;
+		padding: 2.5rem 0 1rem;
+	}
+	.eyebrow {
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--accent);
+		margin: 0 0 0.5rem;
 	}
 	.lead {
 		font-size: 1.2rem;
-		max-width: 38rem;
+		max-width: 40rem;
 	}
 	.cta {
 		display: flex;
 		gap: 0.75rem;
 		flex-wrap: wrap;
 		margin-top: 1.5rem;
+	}
+	.micro {
+		font-size: 0.85rem;
+		color: rgb(var(--gray));
+		margin-top: 0.75rem;
+	}
+	.hero-img {
+		width: 100%;
+		height: auto;
+		margin-top: 2rem;
+		border-radius: 12px;
+		box-shadow: var(--box-shadow);
 	}
 	.btn {
 		display: inline-block;
@@ -135,14 +208,19 @@ const posts = (await getCollection('blog'))
 		background: rgb(var(--gray-light));
 		color: var(--accent-dark);
 	}
+	.textlink {
+		display: inline-block;
+		margin-top: 1rem;
+		font-weight: 700;
+	}
 	section {
-		margin-top: 3rem;
+		margin-top: 3.5rem;
 	}
 	.grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 		gap: 1rem;
-		margin-top: 1rem;
+		margin-top: 1.5rem;
 	}
 	.card {
 		background: #fff;
@@ -152,12 +230,39 @@ const posts = (await getCollection('blog'))
 	}
 	.card h3 {
 		margin-top: 0;
+		font-size: 1.15rem;
 	}
-	.why {
+	.steps {
+		list-style: none;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+	.steps h3 {
+		font-size: 1.15rem;
+		margin-bottom: 0.3rem;
+	}
+	.tree {
+		font-size: 0.9rem;
+		line-height: 1.5;
+	}
+	.reqs {
 		padding-left: 1.1rem;
 	}
-	.why li {
+	.reqs li {
 		margin-bottom: 0.5rem;
+	}
+	.faq-list {
+		margin-top: 1.5rem;
+	}
+	.faq-list dt {
+		font-weight: 700;
+		margin-top: 1rem;
+	}
+	.faq-list dd {
+		margin: 0.25rem 0 0;
 	}
 	.posts {
 		list-style: none;
