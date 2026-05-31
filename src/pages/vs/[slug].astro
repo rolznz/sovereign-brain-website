@@ -1,0 +1,123 @@
+---
+import Page from '../../layouts/Page.astro';
+import { SITE_TITLE, TEMPLATE_USE_URL } from '../../consts';
+import { comparisons } from '../../data/comparisons';
+
+export function getStaticPaths() {
+	return comparisons.map((c) => ({ params: { slug: c.slug }, props: c }));
+}
+
+const c = Astro.props;
+
+// FAQPage-friendly structured data isn't a fit here; use a simple structured
+// comparison via Article schema.
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Article',
+	headline: c.heading,
+	description: c.description,
+	mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+	publisher: { '@type': 'Organization', name: SITE_TITLE },
+};
+---
+
+<Page title={c.title} description={c.description}>
+	<script
+		slot="head"
+		type="application/ld+json"
+		set:html={JSON.stringify(jsonLd)}
+		is:inline
+	/>
+
+	<article class="doc">
+		<h1>{c.heading}</h1>
+		<p class="lead">{c.intro}</p>
+
+		<h2>Feature comparison</h2>
+		<div class="table-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th>Feature</th>
+						<th>Sovereign Brain</th>
+						<th>{c.name}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{
+						c.rows.map((row) => (
+							<tr>
+								<th scope="row">{row.feature}</th>
+								<td>{row.sovereign}</td>
+								<td>{row.competitor}</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+		</div>
+
+		<h2>Where {c.name} wins</h2>
+		<p>{c.competitorWins}</p>
+
+		<h2>The verdict</h2>
+		<p>{c.verdict}</p>
+
+		<p class="cta">
+			<a class="btn" href={TEMPLATE_USE_URL}>Get the free template</a>
+		</p>
+	</article>
+</Page>
+
+<style>
+	.doc {
+		max-width: 760px;
+	}
+	.lead {
+		font-size: 1.15rem;
+	}
+	.doc h2 {
+		margin-top: 2.5rem;
+	}
+	.table-wrap {
+		overflow-x: auto;
+	}
+	table {
+		border-collapse: collapse;
+		width: 100%;
+		font-size: 0.95rem;
+	}
+	th,
+	td {
+		text-align: left;
+		padding: 0.7rem 0.8rem;
+		border-bottom: 1px solid rgb(var(--gray-light));
+		vertical-align: top;
+	}
+	thead th {
+		border-bottom: 2px solid rgb(var(--gray));
+	}
+	tbody th {
+		font-weight: 700;
+	}
+	td:nth-child(2) {
+		color: var(--accent-dark);
+		font-weight: 600;
+	}
+	.cta {
+		margin-top: 2.5rem;
+	}
+	.btn {
+		display: inline-block;
+		background: var(--accent);
+		color: #fff;
+		padding: 0.7rem 1.3rem;
+		border-radius: 8px;
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.btn:hover {
+		background: var(--accent-dark);
+		color: #fff;
+	}
+</style>

@@ -1,33 +1,60 @@
 ---
 import { SITE_TITLE, TEMPLATE_REPO } from '../consts';
+import { comparisons } from '../data/comparisons';
 const today = new Date();
 ---
 
 <footer>
-	<div class="footer-links">
-		<a href="/blog">Blog</a>
-		<a href={TEMPLATE_REPO} target="_blank" rel="noopener">Template repo</a>
-		<a href="/rss.xml">RSS</a>
+	<div class="footer-cols">
+		<div class="col">
+			<h3>{SITE_TITLE}</h3>
+			<a href="/blog">Blog</a>
+			<a href={TEMPLATE_REPO} target="_blank" rel="noopener">Template repo</a>
+			<a href="/rss.xml">RSS</a>
+		</div>
+		<div class="col">
+			<h3>Compare</h3>
+			{comparisons.map((c) => <a href={`/vs/${c.slug}`}>vs {c.name}</a>)}
+		</div>
 	</div>
+	<p class="copy">&copy; {today.getFullYear()} {SITE_TITLE}</p>
 </footer>
 <style>
 	footer {
-		padding: 2em 1em 6em 1em;
+		padding: 3em 1em 6em 1em;
 		background: linear-gradient(var(--gray-gradient)) no-repeat;
 		color: rgb(var(--gray));
-		text-align: center;
 	}
-	.footer-links {
+	.footer-cols {
+		max-width: 720px;
+		margin: 0 auto;
 		display: flex;
-		justify-content: center;
-		gap: 1.25em;
-		margin-top: 1em;
+		flex-wrap: wrap;
+		gap: 2em 4em;
 	}
-	.footer-links a {
+	.col {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+	}
+	.col h3 {
+		font-size: 0.85rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: rgb(var(--gray-dark));
+		margin: 0 0 0.3em;
+	}
+	.col a {
 		text-decoration: none;
 		color: rgb(var(--gray));
 	}
-	.footer-links a:hover {
+	.col a:hover {
 		color: rgb(var(--gray-dark));
+	}
+	.copy {
+		max-width: 720px;
+		margin: 2.5em auto 0;
+		font-size: 0.85rem;
+		text-align: left;
 	}
 </style>
