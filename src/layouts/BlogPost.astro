@@ -119,6 +119,31 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt } = As
 	.prose :global(img) {
 		border: 1.5px solid var(--ink);
 	}
+	.prose :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.4em 0;
+		font-size: 16px;
+	}
+	.prose :global(th),
+	.prose :global(td) {
+		text-align: left;
+		padding: 10px 14px;
+		border-bottom: 1px dashed var(--line-soft);
+	}
+	.prose :global(thead th) {
+		font-family: var(--mono);
+		font-size: 12px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		color: var(--ink-soft);
+		border-bottom: 1px solid var(--line);
+	}
+	.prose :global(td:last-child),
+	.prose :global(th:last-child) {
+		text-align: right;
+		white-space: nowrap;
+	}
 	.backlink {
 		margin-top: 3em;
 		font-family: var(--mono);
