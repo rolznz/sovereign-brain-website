@@ -6,16 +6,13 @@ import Terminal from '../components/Terminal.astro';
 import heroImage from '../assets/local-ai-second-brain-laptop.jpg';
 import { TEMPLATE_USE_URL, TEMPLATE_ZIP_URL } from '../consts';
 
-const latest = (await getCollection('blog')).sort(
+const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-)[0];
+);
+const latestPosts = posts.slice(0, 3);
 
-const blogDate = latest
-	? new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' })
-			.format(latest.data.pubDate)
-			.toUpperCase()
-	: '';
-const blogYear = latest ? latest.data.pubDate.getFullYear() : '';
+const monthDay = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' });
+const formatBlogDate = (date) => monthDay.format(date).toUpperCase();
 
 const title = 'Local AI Second Brain — Private, Offline & Yours | Sovereign Brain';
 const description =
@@ -156,7 +153,7 @@ const description =
 	</div>
 	<div class="notes">
 		<div class="lhead">DRAWING NOTES — REQUIRED SETUP</div>
-		<div class="row"><div class="k">01 · HARDWARE</div><div class="v">A machine with <b>32&nbsp;GB+ RAM</b> to run a local model.</div></div>
+		<div class="row"><div class="k">01 · HARDWARE</div><div class="v">A machine with <b>32&nbsp;GB+ RAM</b> to run a local model.<span class="vsub">No capable machine? Run it on a <a href="/blog/use-ppq-ai-tee-for-your-sovereign-brain/">more private cloud (PPQ.ai TEE)</a> instead.</span></div></div>
 		<div class="row"><div class="k">02 · INFERENCE</div><div class="v">A local inference setup — <code>llama.cpp</code> plus an open model.</div></div>
 		<div class="row"><div class="k">03 · AGENT</div><div class="v">An agent harness to drive it (the template is set up for one).</div></div>
 	</div>
@@ -176,14 +173,26 @@ const description =
 
 	<!-- FROM THE BLOG -->
 	{
-		latest && (
+		latestPosts.length > 0 && (
 			<>
 				<div class="cut" id="blog"><span class="tag"><b>A·07</b> · FROM THE BLOG</span></div>
 				<div class="sec-head"><h2>From the blog</h2></div>
-				<div class="blogrow">
-					<span class="date">{blogDate}<br />{blogYear}</span>
-					<a href={`/blog/${latest.id}/`} class="title">{latest.data.title}</a>
-				</div>
+				{latestPosts.map((post) => (
+					<a href={`/blog/${post.id}/`} class="blogrow">
+						{post.data.heroImage && (
+							<Image
+								class="thumb"
+								src={post.data.heroImage}
+								alt={post.data.heroImageAlt ?? post.data.title}
+								widths={[160, 320]}
+								sizes="80px"
+								loading="lazy"
+							/>
+						)}
+						<span class="date">{formatBlogDate(post.data.pubDate)}<br />{post.data.pubDate.getFullYear()}</span>
+						<span class="title">{post.data.title}</span>
+					</a>
+				))}
 				<a href="/blog" class="alllink">All articles →</a>
 			</>
 		)
@@ -400,6 +409,12 @@ const description =
 		border-bottom: 1px dashed var(--line-soft);
 		font-size: 17px;
 	}
+	.notes .vsub {
+		display: block;
+		margin-top: 4px;
+		font-size: 13px;
+		color: var(--ink-soft);
+	}
 	.notes .row:last-child .k,
 	.notes .row:last-child .v {
 		border-bottom: 0;
@@ -428,12 +443,23 @@ const description =
 	/* blog teaser */
 	.blogrow {
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		gap: 20px;
+		border-bottom: 1px solid var(--line);
+		padding: 18px 0;
+		text-decoration: none;
+	}
+	.blogrow:first-of-type {
 		margin-top: 30px;
 		border-top: 1px solid var(--line);
-		border-bottom: 1px solid var(--line);
-		padding: 24px 0;
+	}
+	.blogrow .thumb {
+		flex: 0 0 auto;
+		width: 80px;
+		height: 45px;
+		object-fit: cover;
+		border: 1.5px solid var(--ink);
+		display: block;
 	}
 	.blogrow .date {
 		font-family: var(--mono);
@@ -441,17 +467,17 @@ const description =
 		color: var(--ink-soft);
 		letter-spacing: 1px;
 		white-space: nowrap;
-		padding-top: 5px;
+		flex: 0 0 auto;
+		width: 4em;
 	}
-	.blogrow a.title {
+	.blogrow .title {
 		font-family: var(--serif);
 		font-weight: 500;
 		font-size: 24px;
 		color: var(--ink);
-		text-decoration: none;
 		line-height: 1.2;
 	}
-	.blogrow a.title:hover {
+	.blogrow:hover .title {
 		color: var(--accent);
 	}
 	.alllink {

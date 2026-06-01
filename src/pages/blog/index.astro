@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Page from '../../layouts/Page.astro';
 
@@ -23,6 +24,17 @@ const description =
 		{
 			posts.map((post) => (
 				<li>
+					{post.data.heroImage && (
+						<a class="thumb" href={`/blog/${post.id}/`}>
+							<Image
+								src={post.data.heroImage}
+								alt={post.data.heroImageAlt ?? post.data.title}
+								widths={[160, 320]}
+								sizes="120px"
+								loading="lazy"
+							/>
+						</a>
+					)}
 					<span class="date mono">
 						<FormattedDate date={post.data.pubDate} />
 					</span>
@@ -54,12 +66,25 @@ const description =
 	}
 	.posts li {
 		display: flex;
+		align-items: flex-start;
 		gap: 22px;
 		padding: 24px 0;
 		border-top: 1px solid var(--line);
 	}
 	.posts li:last-child {
 		border-bottom: 1px solid var(--line);
+	}
+	.thumb {
+		flex: 0 0 auto;
+		display: block;
+		width: 120px;
+	}
+	.thumb :global(img) {
+		display: block;
+		width: 120px;
+		height: 68px;
+		object-fit: cover;
+		border: 1.5px solid var(--ink);
 	}
 	.date {
 		font-size: 11px;
