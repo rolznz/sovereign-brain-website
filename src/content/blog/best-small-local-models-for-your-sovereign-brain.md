@@ -10,6 +10,12 @@ The model is the brain of your sovereign brain. Pick the wrong one and the whole
 
 So I've been running small local models through the same job: be the engine behind my sovereign brain. Here's what I found, and how I score them.
 
+## The entry ticket
+
+Every model here activates only **~1–4B parameters per token** — Qwen3.6 35B A3B routes through ~3B of its 35B, Gemma 4 E4B ~4B, LFM2.5 8B A1B ~1B. That low activated count is what makes them fast and lets them fit in 32GB. It's the entry ticket, not the differentiator — they're all in the same per-token *compute* class.
+
+What separates them isn't on the spec sheet at all. Activated params don't predict it (they're all similar), and neither does total size — as you'll see, the model with *more* total parameters isn't the better brain. The only way to find out is to run them. So I score them on what actually matters for the job:
+
 ## What I'm scoring
 
 A model for a sovereign brain isn't judged on benchmarks. It's judged on whether it can actually *do the job*:
@@ -81,7 +87,7 @@ Fast, and that's the only nice thing I can say. It **fails the carwash test**, f
 2. **Gemma 4 E4B — 4/10.** Fast and close, but won't make a good second brain yet.
 3. **LFM2.5 8B A1B — 2/10.** Avoid.
 
-The pattern is clear: for a sovereign brain, raw speed is worthless without reasoning. A fast model that can't think, can't call tools, and can't find the right file is just a faster way to get nowhere. Qwen3.6 35B A3B is the first small local model I've used that's actually smart enough for the job — and it runs on hardware you already own.
+Back to the spec sheet: all three run roughly the same compute per token, so speed isn't what sets them apart. Neither is raw size — **LFM2.5 has 8B total parameters, more than Gemma 4 E4B's ~4B, yet Gemma is the better brain.** The numbers don't predict the winner. What actually matters is overall model quality — how well those parameters were trained, not just how many there are — and the only way to know is to run your own gauntlet. Qwen3.6 35B A3B is the one that clears the bar: enough well-trained capacity to reason, call tools, and find the right file, while its MoE design keeps it fast enough and small enough to fit 32GB.
 
 No 32GB machine? You can run a capable model in a [private cloud (PPQ.ai TEE)](/blog/use-ppq-ai-tee-for-your-sovereign-brain/) instead.
 
