@@ -57,6 +57,8 @@ Gemma is about **2x faster** than Qwen3.6, which is tempting. But it's also abou
 
 It's almost there. But "almost" isn't good enough for the thing you trust with your thinking.
 
+I also tested the larger **Gemma 4 26B A4B** — and interestingly, saw no improvement over Gemma 4 E4B. It still couldn't really use skills properly, didn't follow instructions, and wasn't thoroughly checking things. More total parameters didn't buy a better brain here.
+
 | Category | Score |
 | --- | --- |
 | Reasoning | ★★☆☆☆ |
