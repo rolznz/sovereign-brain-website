@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import { SITE_TITLE, TEMPLATE_REPO } from '../consts';
+import BrainMark from '../assets/brain-icon.png';
 ---
 
 <header class="topbar">
 	<a class="logo" href="/">
-		<span class="mark"><span></span></span>
+		<Image class="mark" src={BrainMark} alt="" width={60} height={60} aria-hidden="true" />
 		<b>{SITE_TITLE}</b>
 	</a>
 	<nav>
@@ -41,16 +43,8 @@ import { SITE_TITLE, TEMPLATE_REPO } from '../consts';
 	.logo .mark {
 		width: 30px;
 		height: 30px;
-		border: 1.5px solid var(--ink);
-		border-radius: 50%;
-		display: grid;
-		place-items: center;
-	}
-	.logo .mark span {
-		width: 9px;
-		height: 9px;
-		border: 1.5px solid var(--ink);
-		border-radius: 50%;
+		display: block;
+		object-fit: contain;
 	}
 	.logo b {
 		font-family: var(--serif);
